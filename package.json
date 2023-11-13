@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/TomashVolodymyr/ChystoShvydkoShop/issues"
   },
-  "homepage": "https://github.com/TomashVolodymyr/ChystoShvydkoShop#readme"
+  "homepage": "https://github.com/TomashVolodymyr/ChystoShvydkoShop#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0"
+  }
 }
