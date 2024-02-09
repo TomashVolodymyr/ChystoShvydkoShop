@@ -1,6 +1,6 @@
 export class OrderedProduct {
 
-    constructor(productData, updateCartIndicator, ) {
+    constructor(productData, updateCartIndicator,) {
         this.productData = productData;
         this.updateCartIndicator = updateCartIndicator;
         this.svgs = {
@@ -32,7 +32,7 @@ export class OrderedProduct {
         container.setAttribute('data-ordered-product', this.productData.name);
 
         // Add image container
-        const imgContainer = this.createImageContainer(this.productData.image);
+        const imgContainer = this.createImageContainer(this.productData.images[0]);
         container.appendChild(imgContainer);
 
         // Add product info
@@ -46,11 +46,11 @@ export class OrderedProduct {
         return container;
     }
 
-    createImageContainer(imageSrc) {
+    createImageContainer(imageSrc = '#') {
         // Create elements and set attributes for the image container
         let imgContainer = document.createElement('div');
         imgContainer.className = 'ordered-product-img';
-        
+
         let img = document.createElement('img');
         img.setAttribute('src', imageSrc);
         img.setAttribute('alt', 'product image');
@@ -89,7 +89,7 @@ export class OrderedProduct {
         let closeButton = document.createElement('div');
         closeButton.className = 'close-order';
         closeButton.insertAdjacentHTML('beforeend', this.svgs.cross);
-        
+
         // Return the close button element
         return closeButton;
     }
@@ -103,11 +103,12 @@ export class OrderedProduct {
 
     onMinusClick() {
         // Decrease the quantity by 1     
-        if (this.productData.ordered > 1) {
+        if (this.productData.ordered > 0) {
             this.productData.ordered--;
         }
         this.element.querySelector('.order-product-quantity').value = this.productData.ordered;
         this.updateCartIndicator();
+        this.updateProductCartIndicator();
     }
 
     onPlusClick() {
@@ -117,6 +118,7 @@ export class OrderedProduct {
         }
         this.element.querySelector('.order-product-quantity').value = this.productData.ordered;
         this.updateCartIndicator();
+        this.updateProductCartIndicator();
     }
 
     onCloseClick() {
@@ -124,5 +126,19 @@ export class OrderedProduct {
         this.element.remove();
         this.productData.ordered = 0;
         this.updateCartIndicator();
+        this.updateProductCartIndicator();
+    }
+
+    updateProductCartIndicator() {
+        let productElement = document.querySelector(`[data-product="${this.productData.name}"]`);
+
+        let cartIndicator = productElement.querySelector(".product-cart-indicator");
+        cartIndicator.textContent = this.productData.ordered;
+
+        if (this.productData.ordered > 0) {
+            cartIndicator.style.display = '';
+        } else {
+            cartIndicator.style.display = 'none';
+        }
     }
 }

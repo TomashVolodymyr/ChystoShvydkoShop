@@ -4,6 +4,8 @@ const https = require('https');
 const fs = require('fs');
 const dotenv = require("dotenv");
 const path = require('path');
+const ordersRoutes = require('./routes/ordersRoutes');
+
 
 
 // Load environment variables from .env file
@@ -16,6 +18,8 @@ const app = express();
 // middlewares
 app.use(express.json());
 app.use(express.static('public'));
+
+
 
 
 // database connection
@@ -35,5 +39,7 @@ mongoose.connect(dbURI, { useUnifiedTopology: true })
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+app.use(ordersRoutes)
 
 
